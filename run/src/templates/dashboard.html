@@ -1,0 +1,183 @@
+
+        <!doctype html>
+
+
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <style>
+          body {margin:0;}
+          
+          .navbar {
+            overflow: hidden;
+            background-image: -webkit-linear-gradient(top, #f585ae, #f03579);
+            position: fixed;
+            top: 0;
+            width: 100%;
+          }
+          
+          .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 1.4%;
+            text-decoration: none;
+            font-size: 120%;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+          }
+          
+          .navbar a:hover {
+            background-image: linear-gradient(to bottom, #f03579, #f585ae);
+            color: white;
+          }
+
+          .button {
+            background: #f585ae;
+            background-image: -webkit-linear-gradient(top, #f585ae, #f03579);
+            border-radius: 28px;
+            font-family: Georgia;
+            color: #ffffff;
+            font-size: 100%;
+            padding: 1% 2% 1% 2%;
+            text-decoration: none;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            text-decoration: none;
+          }
+
+          .upload-container {
+            position: fixed;
+            float: left;
+            text-align: left;
+            margin-bottom: 1%;
+            background-color: pink;
+            margin-left: 3.5%;
+            padding: 2%;
+            width: 20%;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            text-decoration: none;
+          }
+
+          .post-container {
+            text-align: center;
+            background-color: pink;
+            padding: .5%;
+            margin-left: 30%;
+            margin-right: 30%;
+            margin-bottom: 2%;
+            width: 40%;
+            height: 100%;
+            text-decoration: none;
+          }
+
+          .posts {
+            background-color: pink;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+          }
+
+          .caption-container {
+            padding: 1%;
+            background-color:rgba(255, 255, 255, 0.8); 
+            text-decoration: none;
+          }
+
+          .caption-text {
+            text-align: left;
+            margin-left: 2.5%;
+            color: rgb(55, 54, 54);
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            text-decoration: none;
+          }
+
+          .quote-text {
+            color:gray; 
+            text-align: left; 
+            margin-left: 10%; 
+            font-style: oblique;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            text-decoration: none;
+          }
+
+          .profile-container {
+            position: fixed;
+            right: .5%;
+            float: right;
+            text-align: left;
+            margin-bottom: 1%;
+            background-color: pink;
+            margin-right: 3.5%;
+            padding: 2%;
+            width: 20%;
+            color: white;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 120%;
+            text-shadow: 1px 1px 2px #f03579;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+          }
+
+          </style>
+          
+        </head>
+
+        <div class="navbar">
+            <a>INSTAGRAM</a>
+            <a href="/dashboard">Home</a>
+            <a href="/{{username}}">My Page</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <body>
+
+        <div class="upload-container"> 
+          <form method=post enctype=multipart/form-data>
+            <input type=file name="photo"><br>
+            <input name="caption" placeholder="Caption" required><br>
+            <input class="button" type=submit value=Upload>
+          </form>
+        </div>
+
+        <div class="profile-container">
+            <a style= "navbar a">@{{username}}</a>
+        </div>
+
+        {% for post in allposts %}
+        <div class="post-container">
+            <div>
+                <img class="posts" src= "{{url_for('static', filename = post[2])}}" alt="Photo">
+            </div>
+            <div class="caption-container">
+                {% if post[7] == 'original' %}
+                <p class="caption-text"><strong><a href="/{{post[1]}}">@{{post[1]}}</a></strong>    {{post[3]}}</p>
+                {% elif post[7] == 'repost' %}
+                <p class="caption-text"><strong><a href="/{{post[1]}}">@{{post[1]}}</a></strong> reposted <a href="/{{post[8]}}">@{{post[8]}}</a> </p>
+                <p style="color:gray; 
+                text-align: left; 
+                margin-left: 10%; 
+                font-style: oblique;"><strong>"{{post[3]}}"</strong></p>
+                {% endif %}
+              <div>
+              <form action="/dashboard" method="post">
+                <button name="follow" value="{{post[1]}}" class="button" type="submit">Follow</button>
+                <button name="like" value="{{post[0]}}" class="button" type="submit">Like {{post[5]}}</button>
+                <button name="repost" value={{post[0]}} class="button" type="submit">Repost {{post[6]}}</button>
+              </form>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+        {% for post in allposts %}
+          <!---ADD FOLLOWERS AND OTHER PROFILE INFO-->
+        {% endfor %}
+
+        
+        
+      </body>
